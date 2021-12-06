@@ -214,6 +214,9 @@ class GameHelper {
   };
 
   checkForDraw = (): boolean => {
+    console.log("Last 3 turns human", this.lastThreePlayerTurns);
+    console.log("Last 3 turns AI", this.lastThreeAITurns);
+
     if (
       this.lastThreeAITurns.length < 3 ||
       this.lastThreePlayerTurns.length < 3
@@ -227,7 +230,12 @@ class GameHelper {
         info.to.row === aiFirst.to.row &&
         info.to.col === aiFirst.to.col
     );
-    if (sameAITurns.length !== 3) return false;
+    if (sameAITurns.length !== 2) return false;
+    if (
+      this.lastThreeAITurns[0].from.col !== this.lastThreeAITurns[1].to.col ||
+      this.lastThreeAITurns[0].from.row !== this.lastThreeAITurns[1].to.row
+    )
+      return false;
 
     const playerFirst = this.lastThreePlayerTurns[0];
     const samePlayerTurns = this.lastThreePlayerTurns.filter(
@@ -237,8 +245,14 @@ class GameHelper {
         info.to.row === playerFirst.to.row &&
         info.to.col === playerFirst.to.col
     );
-    if (samePlayerTurns.length !== 3) return false;
-
+    if (samePlayerTurns.length !== 2) return false;
+    if (
+      this.lastThreePlayerTurns[0].from.col !==
+        this.lastThreePlayerTurns[1].to.col ||
+      this.lastThreePlayerTurns[0].from.row !==
+        this.lastThreePlayerTurns[1].to.row
+    )
+      return false;
     return true;
   };
   estimateNow = (board: number[][]): number => {
