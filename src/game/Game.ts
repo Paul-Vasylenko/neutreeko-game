@@ -63,7 +63,7 @@ class Game {
       return SCORE.AI_WIN;
     } else if (GameHelper.checkForDraw()) {
       return SCORE.DRAW;
-    } else if (depth === 5) {
+    } else if (depth === 4) {
       return GameHelper.estimateNow(board);
     }
     let bestScore = isAiTurn ? -20 : 20;
