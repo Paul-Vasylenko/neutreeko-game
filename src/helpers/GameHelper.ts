@@ -252,7 +252,8 @@ class GameHelper {
           sum += board[i][j];
         }
       }
-      if (sum === 2) result += 0.4;
+      if (sum === 2) result += 0.2;
+      else if (sum === 3) result += 0.3;
     }
     //top -> bot
     for (let i = 0; i < 5; i++) {
@@ -262,7 +263,8 @@ class GameHelper {
           sum += board[j][i];
         }
       }
-      if (sum === 2) result += 0.4;
+      if (sum === 2) result += 0.2;
+      else if (sum === 3) result += 0.3;
     }
     // right top diagonal
     for (let i = 2; i < 5; i++) {
@@ -272,7 +274,8 @@ class GameHelper {
           sum += board[i - j][j];
         }
       }
-      if (sum === 2) result += 0.4;
+      if (sum === 2) result += 0.2;
+      else if (sum === 3) result += 0.3;
     }
 
     // right bot diagonal
@@ -283,7 +286,8 @@ class GameHelper {
           sum += board[i][j + i];
         }
       }
-      if (sum === 2) result += 0.4;
+      if (sum === 2) result += 0.2;
+      else if (sum === 3) result += 0.3;
     }
     return result;
   };
