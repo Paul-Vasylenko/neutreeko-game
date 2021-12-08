@@ -20,6 +20,10 @@ export const MoveSlice = createSlice({
     setPossibleMoves: (state, action: PayloadAction<ICell[]>) => {
       state.possibleMoves = action.payload;
     },
+    restart: (state) => {
+      state.chosenFigure = null;
+      state.possibleMoves = [];
+    },
   },
 });
 

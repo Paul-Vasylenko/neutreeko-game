@@ -11,6 +11,9 @@ export const TurnSlice = createSlice({
     giveTurn: (state, action: PayloadAction<boolean>) => {
       state.yourTurn = action.payload;
     },
+    restart: (state) => {
+      state.yourTurn = true;
+    },
   },
 });
 

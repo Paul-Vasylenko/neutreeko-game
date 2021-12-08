@@ -1,11 +1,30 @@
 import { ICell } from "../types/board";
 import GameHelper from "../helpers/GameHelper";
 import { SCORE } from "./../types/board";
+import { TDifficulty } from "../store/reducers/gameStateSlice";
 
 class Game {
   private USER_TURN = false;
   private AI_TURN = true;
-  computerTurn(board: number[][]): ICell[] {
+  private MAX_DEPTH = 1;
+  computerTurn(board: number[][], difficulty: TDifficulty): ICell[] {
+    switch (difficulty) {
+      case 1:
+        this.MAX_DEPTH = 1;
+        break;
+      case 2:
+        this.MAX_DEPTH = 3;
+        break;
+      case 3:
+        this.MAX_DEPTH = 5;
+        break;
+      case 4:
+        this.MAX_DEPTH = 6;
+        break;
+      default:
+        this.MAX_DEPTH = 1;
+    }
+
     let result: ICell[] = [];
     let bestScore = -2;
     const boardCopy: number[][] = [];
@@ -63,7 +82,7 @@ class Game {
       return SCORE.AI_WIN;
     } else if (GameHelper.checkForDraw()) {
       return SCORE.DRAW;
-    } else if (depth === 4) {
+    } else if (depth === this.MAX_DEPTH) {
       return GameHelper.estimateNow(board);
     }
     let bestScore = isAiTurn ? -20 : 20;

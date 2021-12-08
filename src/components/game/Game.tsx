@@ -9,7 +9,9 @@ import gameHelper from "../../helpers/GameHelper";
 import { TurnSlice } from "./../../store/reducers/turnSlice";
 import { BoardSlice } from "./../../store/reducers/boardSlice";
 import game from "../../game/Game";
-import { GameStateSlice } from "./../../store/reducers/gameStateSlice";
+import gameStateSlice, {
+  GameStateSlice,
+} from "./../../store/reducers/gameStateSlice";
 
 interface GameProps {
   board: TBoard;
@@ -18,7 +20,9 @@ interface GameProps {
 const Game: React.FC<GameProps> = ({ board }) => {
   const { chosenFigure, possibleMoves } = useAppSelector((store) => store.move);
   const { yourTurn } = useAppSelector((store) => store.turn);
-  const gameState = useAppSelector((store) => store.game.state);
+  const { state: gameState, difficulty } = useAppSelector(
+    (store) => store.game
+  );
   const dispatch = useAppDispatch();
   const checkPossibleMove = React.useCallback(
     (row: number, col: number) => {
@@ -42,7 +46,7 @@ const Game: React.FC<GameProps> = ({ board }) => {
 
   const computerTurn = (boardLocal: number[][]) => {
     if (!yourTurn) {
-      const [moveToDo, moveFrom] = game.computerTurn(boardLocal);
+      const [moveToDo, moveFrom] = game.computerTurn(boardLocal, difficulty);
       dispatch(
         BoardSlice.actions.moveFrom({
           row: moveFrom.row,
@@ -75,9 +79,12 @@ const Game: React.FC<GameProps> = ({ board }) => {
   }, [yourTurn]);
 
   const playerTurn = (i: number, j: number) => {
-    if (yourTurn && gameState === "going") {
+    if (yourTurn && (gameState === "going" || gameState === "start")) {
       if (checkPossibleMove(i, j)) {
         if (chosenFigure) {
+          if (gameState === "start") {
+            dispatch(GameStateSlice.actions.setResultOfGame("going"));
+          }
           dispatch(
             BoardSlice.actions.moveFrom({
               row: chosenFigure.row,
@@ -137,7 +144,7 @@ const Game: React.FC<GameProps> = ({ board }) => {
                       chosen={i === chosenFigure?.row && j === chosenFigure.col}
                       onFigureClick={(e) => {
                         e.stopPropagation();
-                        if (gameState === "going") {
+                        if (gameState === "going" || gameState === "start") {
                           onFigureBlackClick(i, j);
                         }
                       }}

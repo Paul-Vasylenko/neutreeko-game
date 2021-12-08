@@ -214,9 +214,6 @@ class GameHelper {
   };
 
   checkForDraw = (): boolean => {
-    console.log("Last 3 turns human", this.lastThreePlayerTurns);
-    console.log("Last 3 turns AI", this.lastThreeAITurns);
-
     if (
       this.lastThreeAITurns.length < 3 ||
       this.lastThreePlayerTurns.length < 3

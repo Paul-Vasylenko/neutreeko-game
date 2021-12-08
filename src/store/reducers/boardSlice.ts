@@ -9,14 +9,6 @@ const initialState: TBoard = [
   [0, -1, 0, -1, 0],
 ];
 
-// const initialState: TBoard = [
-//   [0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, -1],
-//   [0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, -1],
-//   [0, 0, 0, 0, -1],
-// ];
-
 export const BoardSlice = createSlice({
   name: "board",
   initialState,
@@ -32,6 +24,13 @@ export const BoardSlice = createSlice({
     setBlack: (state, action: PayloadAction<ICell>) => {
       const { row, col } = action.payload;
       state[row][col] = -1;
+    },
+    restart: (state) => {
+      state[0] = [0, 1, 0, 1, 0];
+      state[1] = [0, 0, -1, 0, 0];
+      state[2] = [0, 0, 0, 0, 0];
+      state[3] = [0, 0, 1, 0, 0];
+      state[4] = [0, -1, 0, -1, 0];
     },
   },
 });
